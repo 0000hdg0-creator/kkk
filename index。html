@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <style>
+        /* 全局样式重置与字体设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        /* 导航栏 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        nav a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #3498db;
+        }
+
+        /* 全局区块样式 */
+        section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: #3498db;
+            margin: 10px auto 0;
+        }
+
+        /* 首页欢迎区 */
+        #home {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            color: white;
+            text-align: center;
+            padding-top: 60px;
+        }
+        #home h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        #home p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 30px;
+            background-color: white;
+            color: #6c5ce7;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 关于我区块 */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #ddd; /* 占位色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #777;
+            margin: 0 auto;
+            border: 5px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* 技能区块 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 150px));
+            gap: 20px;
+            justify-content: center;
+        }
+        .skill-card {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .skill-card h3 {
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        /* 作品/项目区块 */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        .project-img {
+            height: 180px;
+            background-color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+        }
+        .project-info {
+            padding: 20px;
+        }
+        .project-info h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        /* 联系方式区块 */
+        #contact {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            max-width: 100%;
+        }
+        #contact .section-title {
+            color: white;
+        }
+        .contact-links {
+            margin-top: 20px;
+        }
+        .contact-links a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        .contact-links a:hover {
+            color: #fff;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a252f;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            #home h1 { font-size: 36px; }
+            .nav-container { flex-direction: column; gap: 10px; }
+            nav a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">david</div>
+            <nav>
+                <a href="#home">首页</a>
+                <a href="#about">关于我</a>
+                <a href="#skills">技能</a>
+                <a href="#projects">项目</a>
+                <a href="#contact">联系我</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home">
+        <h1>你好，我是 [david]</h1>
+        <p>一名热衷于 [你的专业/兴趣，例如：摄影/独立开发/设计] 的探险家</p>
+        <a href="#about" class="btn">了解更多</a>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">关于我</h2>
+        <div class="about-content">
+            <div class="avatar">【此处放头像】</div>
+            <div class="about-text">
+                <p>这里是一段关于你自己的介绍。你可以写写你的背景、你热爱的事情，或者你正在追求的目标。</p>
+                <br>
+                <p>保持对生活的好奇心，用代码/文字/镜头记录世界。这里是我的个人自留地，欢迎你的到来！</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">我的技能</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>技能一</h3>
+                <p>熟练度 / 描述</p>
+            </div>
+            <div class="skill-card">
+                <h3>技能二</h3>
+                <p>熟练度 / 描述</p>
+            </div>
+            <div class="skill-card">
+                <h3>技能三</h3>
+                <p>熟练度 / 描述</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">精选作品</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-img">【作品图片】</div>
+                <div class="project-info">
+                    <h3>项目名称 A</h3>
+                    <p>简单描述一下这个项目是什么，你扮演了什么角色，或者它解决了什么问题。</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">【作品图片】</div>
+                <div class="project-info">
+                    <h3>项目名称 B</h3>
+                    <p>简单描述一下这个项目是什么，你扮演了什么角色，或者它解决了什么问题。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">保持联系</h2>
+        <p>如果你有任何有趣的想法或合作意向，欢迎通过以下方式找到我：</p>
+        <div class="contact-links">
+            <a href="mailto:your-email@example.com">电子邮箱</a>
+            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+            <a href="#" target="_blank">社交媒体</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 你的名字. 保留所有权利.</p>
+    </footer>
+
+</body>
+</html>
